@@ -15,6 +15,8 @@ To use the Usher module, import it using `from py-usher.usher import Usher`. Cre
 
 `out_q_size` - An integer that specifies the size of the output queue. Default value is 15.  
 
+`Usher` module is using SQLite for storing and managing your events and operations, When creating a new instance of `Usher` a new SQLite db file is initliazed as well.
+
 ## Methods
 
 The following methods are available in the Usher module:

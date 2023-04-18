@@ -6,16 +6,16 @@ from typing import *
 from .database import DBHandler
 
 
-def validate_op(func: Callable) -> bool:
-    """Validate that the provided function is callable."""
-    return callable(func)
+# def validate_op(func: Callable) -> bool:
+#     """Validate that the provided function is callable."""
+#     return callable(func)
 
 
-def sanitize_input(input_string: str) -> str:
-    """Replace any non-alphanumeric character with an empty string and trim whitespaces form both ends"""
-    sanitized_input = re.sub(r'\W+', '', input_string)
-    sanitized_input = sanitized_input.strip()
-    return sanitized_input
+# def sanitize_input(input_string: str) -> str:
+#     """Replace any non-alphanumeric character with an empty string and trim whitespaces form both ends"""
+#     sanitized_input = re.sub(r'\W+', '', input_string)
+#     sanitized_input = sanitized_input.strip()
+#     return sanitized_input
 
 
 now = datetime.datetime.now().timestamp()
