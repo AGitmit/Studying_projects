@@ -30,10 +30,11 @@ class Usher:
         if 'error_message' not in response:
             if func.__name__ not in list(self.__operations.keys()):
                 self.__operations[func.__name__] = dill.dumps(func)
-        # output_op = self.__planner.event_details("output_operations")
+        return response
 
     def del_operation(self, event_type: str, func_name: str):
         response = self.__planner.del_operation(event_type, func_name)
+        self.__operations[event_type].remove(func_name)
         return response
 
     def del_event(self, event_type: str):
@@ -45,7 +46,6 @@ class Usher:
 
     def start_event(self, event_type: str, *args, **kwargs) -> NoReturn:
         event = self.__planner.event_ops(event_type)
-        # output_op = self.__planner.event_details("output_operations")
         if not event:
             message = {"message": "Event type not found.", "event_type": event_type, "status_code": 400,
                        "timestamp": now}
