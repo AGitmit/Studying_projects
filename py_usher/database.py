@@ -85,17 +85,3 @@ class DBHandler:
         conn.commit()
         conn.close()
         return {"message": f"{event_type} has been deleted from the db."}
-
-
-if __name__ == "__main__":
-
-    def test():
-        return "lol"
-
-    db = DBHandler()
-    db.insert_new("test_event", "trythis")
-    db.insert_new("test_event", "nowthis")
-    print("fetched event - " + str(db.fetch_event("test_event")))
-    db.del_operation("test_event", "nowthis")
-    # db.del_event("test_event")
-    print("fetched event - " + str(db.fetch_event("test_event")))
