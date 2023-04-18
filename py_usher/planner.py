@@ -1,4 +1,24 @@
+import re
+import sqlite3
+import json
+import datetime
 from typing import *
+from .database import DBHandler
+
+
+def validate_op(func: Callable) -> bool:
+    """Validate that the provided function is callable."""
+    return callable(func)
+
+
+def sanitize_input(input_string: str) -> str:
+    """Replace any non-alphanumeric character with an empty string and trim whitespaces form both ends"""
+    sanitized_input = re.sub(r'\W+', '', input_string)
+    sanitized_input = sanitized_input.strip()
+    return sanitized_input
+
+
+now = datetime.datetime.now().timestamp()
 
 
 class Planner:
@@ -6,25 +26,47 @@ class Planner:
     The Planner unit is responsible for storing and fetching the event types and their various operations.
     """
     def __init__(self):
-        """ The `output` event type is a default event type for handling logging and results of operations. """
-        self.__event_types = {"output": []}
+        self.__db = DBHandler()
+        try:
+            self.__db.create_table()
+        except sqlite3.OperationalError:
+            pass
 
     def submit_operation(self, event_type: str, func: Callable) -> dict:
         try:
-            if event_type not in self.__event_types:
-                self.__event_types[event_type] = []
-            self.__event_types[event_type].append(func)
-            return {"message": "Operation submitted successfully.", "event_type": event_type, "func": func.__name__,
-                    "status_code": 200}
+            response = self.__db.insert_new(event_type, func.__name__)
+            return response
         except Exception as err:
             return {"error_message": err, "event_type": event_type, "func": func.__name__, "status_code": 500}
 
-    def event_exists(self, event_type: str) -> bool:
-        if event_type in self.__event_types:
-            return True
-        return False
+    def del_operation(self, event_type: str, operation_name: str) -> Optional:
+        try:
+            response = self.__db.del_operation(event_type, operation_name)
+            return response
+        except Exception as err:
+            return {"error_message": err, "event_type": event_type, "func": operation_name, "status_code": 500}
 
-    def event_details(self, event_type: str) -> List[Callable]:
-        if event_type in self.__event_types:
-            return self.__event_types[event_type]
-        return []
+    def del_event(self, event_type: str) -> dict:
+        try:
+            response = self.__db.del_event(event_type)
+            return response
+        except Exception as err:
+            return {"error_message": err, "event_type": event_type, "status_code": 500}
+
+    def __output_operations(self, response: dict) -> NoReturn:
+        output_op = self.__db.fetch_event("output_operations")
+        if not output_op:
+            return response
+        for operation in output_op:
+            operation(response)
+
+    def event_details(self, event_type: str) -> List[str]:
+        event_operations = self.__db.fetch_event(event_type)
+        return event_operations
+
+    def event_ops(self, event_type: str) -> json or None:
+        event = self.__db.fetch_event(event_type)
+        if event:
+            event_operations = event[2]
+            return json.loads(event_operations)
+        return None
