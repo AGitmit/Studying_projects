@@ -1,7 +1,7 @@
 # Switter (Twitter simple clone)
 ### REST API project using Flask framework. 
   
-This small back-end project is supposed to clone the basic behavior of Twitter -   
+This small back-end project is supposed to clone the basic behavior of Twitter with two seperate independent apps as micro-services -   
 #### User operations
 * Handle user registration. 
 * User login and authentication. 
