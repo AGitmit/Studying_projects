@@ -15,6 +15,9 @@ This small back-end project is supposed to clone the basic behavior of Twitter w
 * User posting a tweet. 
 * User feed - viewing his tweets, as well as tweets from people the users follows.
 * User deleting a tweet (required to be authenticated)
+
+#### REST API documentation
+* Using Flask_smorest built in support for OpenAPI (Swagger) UI to automatically generate our API documentation.
   
 I've used SQLite database for this project, since its a small project is it a good fit, quick to setup, and reliable.  
 The authentication system is implementing a JWT token system, a fresh token is mandatory for posting new tweets, deleting the user etc.  
