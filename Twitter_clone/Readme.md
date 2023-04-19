@@ -2,13 +2,19 @@
 ### REST API project using Flask framework. 
   
 This small back-end project is supposed to clone the basic behavior of Twitter -   
+#### User operations
 * Handle user registration. 
 * User login and authentication. 
-* User deletion (need to be authenticated).
-* User posting a tweet. 
+* User deletion (need to be authenticated).  
 * User following other users.
+* User can get followed.  
+* User can remove follower.  
+* User can stop following other user.  
+
+#### Posts operations
+* User posting a tweet. 
 * User feed - viewing his tweets, as well as tweets from people the users follows.
-* Get followed.  
+* User deleting a tweet (required to be authenticated)
   
 I've used SQLite database for this project, since its a small project is it a good fit, quick to setup, and reliable.  
 The authentication system is implementing a JWT token system, a fresh token is mandatory for posting new tweets, deleting the user etc.  
