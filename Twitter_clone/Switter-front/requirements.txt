@@ -1,7 +1,0 @@
-flask
-flask_smorest
-flask_restful
-marshmallow
-pipenv
-python-dotenv
-requests
